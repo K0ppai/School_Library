@@ -2,7 +2,7 @@
 
 <div align="center">
 
-  <h1><b>Enumerable</b></h1>
+  <h1><b>School Library</b></h1>
 
 </div>
 
@@ -10,7 +10,7 @@
 
 ## 📗 Table of Contents
 
-- [📖 Enumerable ](#-decode-morse-code-)
+- [📖 School Library ](#-decode-morse-code-)
   - [🛠 Built With ](#-built-with-)
     - [Tech Stack ](#tech-stack-)
     - [Key Features ](#key-features-)
@@ -28,9 +28,12 @@
 
 <!-- PROJECT DESCRIPTION -->
 
-# 📖 Enumerable <a name="about-project"></a>
+# 📖 School Library <a name="about-project"></a>
 <!-- write description for me -->
-**Enumerable** is app where users can use all,any and filter methods.
+**School Library** is app where users can
+- Add new students or teachers.
+- Add new books.
+- Save records of who borrowed a given book and when.
 
 ## 🛠 Built With <a name="built-with"></a>
 
@@ -45,7 +48,7 @@
 
 ### Key Features <a name="key-features"></a>
 
-- **Built methods using Ruby**
+- **Built methods using Ruby classes**
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -73,7 +76,7 @@ In order to run this project you need:
 Clone this repository to your desired folder:
 
 ```bash
-  git clone https://github.com/K0ppai/Enumerable.git
+  git clone https://github.com/K0ppai/School_Library.git
 ```
 
 ### Install
@@ -81,7 +84,7 @@ Clone this repository to your desired folder:
 Install this project with:
 
 ```bash
-  cd Enumerable
+  cd School_Library
   bundle install
 ```
 
@@ -97,13 +100,11 @@ it will install the required gemfile for running the project
 
 👤 **Koppai**
 
-- GitHub: [@KOppai](https://github.com/K0ppai)
-- LinkedIn: [Paing Soe Thu](https://www.linkedin.com/in/paingsoe-thu/)
+- GitHub: [@K0ppai](https://github.com/K0ppai)
+- Twitter: [@_koppai_](https://twitter.com/_koppai_)
+- LinkedIn: [LinkedIn](https://www.linkedin.com/in/paingsoe-thu)
 
-👤 **Tonny Tei**
 
-- GitHub: [@tonnytech](https://github.com/tonnytech)
-- LinkedIn: [Tonny Tei](https://www.linkedin.com/in/tonnytei/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -122,7 +123,7 @@ it will install the required gemfile for running the project
 
 Contributions, issues, and feature requests are welcome!
 
-Feel free to check the [issues page](https://github.com/K0ppai/Enumerable/issues).
+Feel free to check the [issues page](https://github.com/K0ppai/School_Library/issues).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -146,6 +147,6 @@ I would like to thank microverse for this project
 
 ## 📝 License <a name="license"></a>
 
-This project is [MIT](https://github.com/K0ppai/Enumerable/blob/develop/LICENSE) licensed.
+This project is [MIT](https://github.com/K0ppai/School_Library/blob/develop/LICENSE) licensed.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
