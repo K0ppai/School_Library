@@ -4,4 +4,10 @@ class Person
     @name = name
     @age = age
   end
+
+  attr_accessor : name
+  attr_accessor : age
+  attr_reader : id
+  
+  
 end
