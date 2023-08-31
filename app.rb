@@ -16,9 +16,9 @@ class App
     option = gets.chomp
     case option
     when "1"
-      puts "List all books"
+      display_books
     when "2"
-      display_people_list
+      display_people
     when "3"
       create_person
     when "4"
@@ -77,7 +77,7 @@ class App
     puts "Person created successfully!"
   end
 
-  def display_people_list
+  def display_people
     @people.map{|person| puts "[#{person.class}] Name: #{person.name}, ID: #{person.id}, Age: #{person.age}"}
   end
 
@@ -88,5 +88,9 @@ class App
     author = gets.chomp
     @books << Book.new(title,author)
     puts "Book created successfully!"
+  end
+
+  def display_books
+    @books.map{|book| puts "Title: \"#{book.title}\", Author: \"#{book.author}\""}
   end
 end
