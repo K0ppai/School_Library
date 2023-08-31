@@ -80,7 +80,9 @@ class App
   end
 
   def display_people
-
+    if @people.length == 0
+      puts "There is no people yet."
+    end
     @people.map { |people| people_printer(people) }
   end
 
@@ -98,6 +100,9 @@ class App
   end
 
   def display_books
+    if @books
+      
+    end
     @books.map { |book| book_printer(book) }
   end
 
