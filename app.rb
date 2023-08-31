@@ -8,7 +8,7 @@ require "./rental"
 class App
   def initialize
     @people = []
-    @book = []
+    @books = []
     @rentals = []
   end
 
@@ -22,7 +22,7 @@ class App
     when "3"
       create_person
     when "4"
-      puts "Create a book"
+      create_book
     when "5"
       puts "Create a rental"
     when "6"
@@ -74,10 +74,19 @@ class App
     puts "Specialization: "
     specialization = gets.chomp
     @people << Teacher.new(specialization,age,name)
-    puts "Person created successfully"
+    puts "Person created successfully!"
   end
 
   def display_people_list
     @people.map{|person| puts "[#{person.class}] Name: #{person.name}, ID: #{person.id}, Age: #{person.age}"}
+  end
+
+  def create_book
+    puts "Title: "
+    title = gets.chomp
+    puts "Author: "
+    author = gets.chomp
+    @books << Book.new(title,author)
+    puts "Book created successfully!"
   end
 end
