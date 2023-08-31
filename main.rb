@@ -1,6 +1,5 @@
 require "./app"
 
-app = App.new
 
 def display_options
   puts "Welcome to school library app!
@@ -12,9 +11,10 @@ def display_options
     5 - Create a rental
     6 - List all rentals for a given person id
     7 - Exit"
-end
-
-def main
+  end
+  
+  def main
+    app = App.new
   loop do
     display_options
     app.choose_option
