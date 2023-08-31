@@ -1,4 +1,4 @@
-require "./app"
+require './app'
 
 def display_options
   puts "Welcome to school library app!
