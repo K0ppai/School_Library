@@ -100,8 +100,8 @@ class App
   end
 
   def display_books
-    if @books
-      
+    if @books.length == 0
+      puts "There is no books yet."
     end
     @books.map { |book| book_printer(book) }
   end
