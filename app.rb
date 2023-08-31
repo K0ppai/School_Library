@@ -31,6 +31,8 @@ class App
       puts "File saved successfully!"
       puts "Thank you for using this app!"
       exit
+    else
+      puts "Please enter a valid input!"
     end
   end
 
