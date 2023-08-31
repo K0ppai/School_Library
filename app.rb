@@ -112,12 +112,22 @@ class App
     }
     book_choice = gets.chomp.to_i
 
+    if book_choice < 0 || book_choice >= @books.length
+      puts "Invalid input! Please enter a number within the range."
+      return
+    end
+
     puts "Select a person from the following list by number (not id)"
     @people.map.with_index { |people, idx|
       print "#{idx}) "
       people_printer(people)
     }
     people_choice = gets.chomp.to_i
+
+    if people_choice < 0 || people_choice >= @books.length
+      puts "Invalid input! Please enter a number within the range."
+      return
+    end
 
     puts "Date: "
     date = gets.chomp
