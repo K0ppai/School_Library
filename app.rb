@@ -24,7 +24,7 @@ class App
     when "4"
       create_book
     when "5"
-      puts "Create a rental"
+      create_rental
     when "6"
       puts "List all rentals for a given person id"
     when "7"
@@ -39,11 +39,13 @@ class App
 
     input = gets.chomp
 
-    puts "Age: "
-    age_input = gets.chomp
+    if %w[1 2].include?(input)
+      puts "Age: "
+      age_input = gets.chomp
 
-    puts "Name: "
-    name_input = gets.chomp
+      puts "Name: "
+      name_input = gets.chomp
+    end
 
     case input
     when "1"
@@ -69,16 +71,20 @@ class App
       puts "Please enter a valid input"
     end
   end
-  
-  def create_teacher(age,name)
+
+  def create_teacher(age, name)
     puts "Specialization: "
     specialization = gets.chomp
-    @people << Teacher.new(specialization,age,name)
+    @people << Teacher.new(specialization, age, name)
     puts "Person created successfully!"
   end
 
   def display_people
-    @people.map{|person| puts "[#{person.class}] Name: #{person.name}, ID: #{person.id}, Age: #{person.age}"}
+    @people.map { |people| people_printer(people) }
+  end
+
+  def people_printer(people)
+    puts "[#{people.class}] Name: #{people.name}, ID: #{people.id}, Age: #{people.age}"
   end
 
   def create_book
@@ -86,11 +92,36 @@ class App
     title = gets.chomp
     puts "Author: "
     author = gets.chomp
-    @books << Book.new(title,author)
+    @books << Book.new(title, author)
     puts "Book created successfully!"
   end
 
   def display_books
-    @books.map{|book| puts "Title: \"#{book.title}\", Author: \"#{book.author}\""}
+    @books.map { |book| book_printer(book) }
+  end
+
+  def book_printer(book)
+    puts "Title: \"#{book.title}\", Author: #{book.author}"
+  end
+
+  def create_rental
+    puts "Select a book from the following list by number"
+    @books.map.with_index { |book, idx|
+      print "#{idx}) "
+      book_printer(book)
+    }
+    book_choice = gets.chomp.to_i
+
+    puts "Select a person from the following list by number (not id)"
+    @people.map.with_index { |people, idx|
+      print "#{idx}) "
+      people_printer(people)
+    }
+    people_choice = gets.chomp.to_i
+
+    puts "Date: "
+    date = gets.chomp
+    @rentals << Rental.new(date, @books[book_choice], @people[people_choice])
+    puts "Rental created successfully!"
   end
 end
