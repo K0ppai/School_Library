@@ -1,3 +1,10 @@
+require "./person"
+require "./student"
+require "./teacher"
+require "./classroom"
+require "./book"
+require "./rental"
+
 class App
   def initialize
     @people = []
@@ -30,11 +37,30 @@ class App
   def create_person
     puts "Do you want to create a student (1) or a teacher (2)? [Input the number]: "
     input = gets.chomp
+    puts "Age: "
+    age_input = gets.chomp
+    puts "Name: "
+    name_input = gets.chomp
     case input
     when "1"
-      puts "create_student"
+      create_student(age_input, name_input)
     when "2"
       puts "create_teacher"
+    else
+      puts "Please enter a valid input"
+    end
+  end
+
+  def create_student(age, name)
+    puts "Has parent permission? [Y/N]"
+    permission_input = gets.chomp
+    case permission_input.upcase
+    when "Y"
+      @people << Student.new(age, name)
+      puts "Person created successfully"
+    when "N"
+      @people << Student.new(age, name, parent_permission: false)
+      puts "Person created successfully"
     else
       puts "Please enter a valid input"
     end
