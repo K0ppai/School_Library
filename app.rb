@@ -12,7 +12,6 @@ class App
     @rentals = []
   end
 
-  # rubocop:disable Metrics/CyclomaticComplexity
   def choose_option
     option = gets.chomp
     case option
@@ -34,7 +33,6 @@ class App
     end
   end
 
-  # rubocop:enable Metrics/CyclomaticComplexity
   def create_person
     puts 'Do you want to create a student (1) or a teacher (2)? [Input the number]: '
 
@@ -107,7 +105,6 @@ class App
     puts "Title: \"#{book.title}\", Author: #{book.author}"
   end
 
-  # rubocop:disable Metrics/MethodLength
   def create_rental
     puts 'Select a book from the following list by number'
     @books.map.with_index do |book, idx|
@@ -139,7 +136,6 @@ class App
     puts 'Rental created successfully!'
   end
 
-  # rubocop:enable Metrics/MethodLength
   def display_rentals_by_person_id
     display_people
     puts 'Enter person ID'
