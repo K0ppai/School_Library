@@ -18,7 +18,7 @@ class App
     when "1"
       puts "List all books"
     when "2"
-      puts "List all people"
+      display_people_list
     when "3"
       create_person
     when "4"
@@ -75,5 +75,9 @@ class App
     specialization = gets.chomp
     @people << Teacher.new(specialization,age,name)
     puts "Person created successfully"
+  end
+
+  def display_people_list
+    @people.map{|person| puts "[#{person.class}] Name: #{person.name}, ID: #{person.id}, Age: #{person.age}"}
   end
 end
