@@ -36,16 +36,20 @@ class App
 
   def create_person
     puts "Do you want to create a student (1) or a teacher (2)? [Input the number]: "
+
     input = gets.chomp
+
     puts "Age: "
     age_input = gets.chomp
+
     puts "Name: "
     name_input = gets.chomp
+
     case input
     when "1"
       create_student(age_input, name_input)
     when "2"
-      puts "create_teacher"
+      create_teacher(age_input, name_input)
     else
       puts "Please enter a valid input"
     end
@@ -64,5 +68,12 @@ class App
     else
       puts "Please enter a valid input"
     end
+  end
+  
+  def create_teacher(age,name)
+    puts "Specialization: "
+    specialization = gets.chomp
+    @people << Teacher.new(specialization,age,name)
+    puts "Person created successfully"
   end
 end
