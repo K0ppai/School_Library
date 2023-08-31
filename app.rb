@@ -134,4 +134,9 @@ class App
     @rentals << Rental.new(date, @books[book_choice], @people[people_choice])
     puts "Rental created successfully!"
   end
+
+
+  def rental_printer(rental)
+    puts "Date: #{rental.date}, Book \"#{rental.book.title}\" by #{rental.book.author}"
+  end
 end
