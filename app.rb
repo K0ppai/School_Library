@@ -26,7 +26,7 @@ class App
     when "5"
       create_rental
     when "6"
-      puts "List all rentals for a given person id"
+      display_rentals_by_person_id
     when "7"
       puts "File saved successfully!"
       puts "Thank you for using this app!"
@@ -80,6 +80,7 @@ class App
   end
 
   def display_people
+
     @people.map { |people| people_printer(people) }
   end
 
@@ -124,7 +125,7 @@ class App
     }
     people_choice = gets.chomp.to_i
 
-    if people_choice < 0 || people_choice >= @books.length
+    if people_choice < 0 || people_choice >= @people.length
       puts "Invalid input! Please enter a number within the range."
       return
     end
@@ -135,7 +136,19 @@ class App
     puts "Rental created successfully!"
   end
 
-
+  def display_rentals_by_person_id
+    display_people
+    puts "Enter person ID"
+    id = gets.chomp.to_i
+    puts "Rentals:"
+    filtered_rentals = @rentals.select { |rental| rental.person.id == id }
+    if filtered_rentals.length == 0
+      puts "This person has no rentals."
+      return
+    end
+    filtered_rentals.map{ |rental| rental_printer(rental)}
+  end
+  
   def rental_printer(rental)
     puts "Date: #{rental.date}, Book \"#{rental.book.title}\" by #{rental.book.author}"
   end
