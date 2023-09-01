@@ -119,7 +119,7 @@ class App
     end
 
     puts 'Select a person from the following list by number (not id)'
-    @people.map.with_index do |people, idx|
+    @books.map.with_index do |people, idx|
       print "#{idx}) "
       people_printer(people)
     end
