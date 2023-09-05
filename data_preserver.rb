@@ -6,27 +6,15 @@ end
 
 class FileWriter < DataPreserver
   def write(data)
-    opts = {
-      array_nl: "\n",
-      object_nl: "\n",
-      indent: '  ',
-      space_before: ' ',
-      space: ' '
-    }
-    json_data = JSON.generate(data, opts)
+    json_data = JSON.pretty_generate(data)
     File.write(@file_name, json_data)
   end
 end
 
 class FileReader < DataPreserver
   def read
-    if File.exist?(@file_name)
-      file = File.read(@file_name)
-    else
-      FileWriter.new(@file_name).write([])
-      file = File.read(@file_name)
-    end
-
+    FileWriter.new(@file_name).write([]) unless File.exist?(@file_name)
+    file = File.read(@file_name)
     JSON.parse(file)
   end
 end
