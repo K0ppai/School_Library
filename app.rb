@@ -37,8 +37,10 @@ class App
         @people.push(Teacher.new( person['specialization'], person['age'],person['name'],parent_permission:person['parent_permission']))  
       end
     }
+    # rentals = FileReader.new('rentals.json').read
+    # rentals.map { |rental| @rentals.push(Rental.new(rental['date'], rental['book'], rental['person'])) }
   end
-
+  
   def save
     books = @books.map { |book| { title: book.title, author: book.author } }
     FileWriter.new("books.json").write(books)
@@ -46,10 +48,13 @@ class App
       if person.instance_of?(Teacher)
         { id: person.id, name: person.name, age: person.age, parent_permission: person.parent_permission, type: person.class, specialization: person.specialization }
       else
-        { id: person.id, name: person.name, age: person.age, parent_permission: person.parent_permission, type: person.class, specialization:nil }
+        { id: person.id, name: person.name, age: person.age, parent_permission: person.parent_permission, type: person.class, specialization:'No Specialization' }
       end
     }
     FileWriter.new("people.json").write(people)
+    rentals = @rentals.map { |rental| { date: rental.date, book:
+      { title: rental.book.title, author: rental.book.author }, person: { id: rental.person.id, name: rental.person.name, age: rental.person.age, parent_permission: rental.person.parent_permission, type: rental.person.class, specialization: rental.person.specialization } } }
+    FileWriter.new("rentals.json").write(rentals)
   end
 
   def choose_option
@@ -142,12 +147,13 @@ class App
     puts "There is no books yet." if @books.empty?
     @books.map { |book| book_printer(book) }
   end
-
+  
   def book_printer(book)
     puts "Title: \"#{book.title}\", Author: #{book.author}"
   end
-
+  
   def create_rental
+    return puts "There is no books yet." if @books.empty?
     puts "Select a book from the following list by number"
     @books.map.with_index do |book, idx|
       print "#{idx}) "
