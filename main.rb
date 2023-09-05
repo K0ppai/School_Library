@@ -2,6 +2,7 @@ require './app'
 
 def main
   app = App.new
+  app.load_data
   loop do
     app.display_options
     app.choose_option
