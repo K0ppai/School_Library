@@ -30,13 +30,13 @@ class App
     books = FileReader.new('books.json').read
     books.map { |book| @books.push(Book.new(book['title'], book['author'])) }
     people = FileReader.new('people.json').read
-    # people.map { |person| 
-    #   if(person.type === 'Student')
-    #     @people.push(Student.new( person['age'], person['name'],person['parent_permission']))
-    #   else
-    #     @people.push(Teacher.new( person['specialization'], person['age'],person['name'],person['parent_permission']))  
-    #   end
-    # }
+    people.map { |person| 
+      if(person['type'] === 'Student')
+        @people.push(Student.new( person['age'], person['name'],parent_permission:person['parent_permission']))
+      else
+        @people.push(Teacher.new( person['specialization'], person['age'],person['name'],parent_permission:person['parent_permission']))  
+      end
+    }
   end
 
   def save

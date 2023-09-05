@@ -1,16 +1,26 @@
 [
   {
-    "id" : 6835,
+    "id" : 1577,
     "name" : "manas",
     "age" : "13",
     "parent_permission" : true,
-    "type" : "Student"
+    "type" : "Student",
+    "specialization" : null
   },
   {
-    "id" : 1833,
+    "id" : 4437,
     "name" : "naks",
     "age" : "45",
     "parent_permission" : true,
-    "type" : "Teacher"
+    "type" : "Teacher",
+    "specialization" : null
+  },
+  {
+    "id" : 8709,
+    "name" : "adas",
+    "age" : "12",
+    "parent_permission" : true,
+    "type" : "Student",
+    "specialization" : null
   }
 ]
