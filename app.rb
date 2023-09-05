@@ -27,33 +27,68 @@ class App
   end
 
   def load_data
-    books = FileReader.new('books.json').read
-    books.map { |book| @books.push(Book.new(book['title'], book['author'])) }
-    people = FileReader.new('people.json').read
-    people.map { |person| 
-      if(person['type'] === 'Student')
-        @people.push(Student.new( person['age'], person['name'],parent_permission:person['parent_permission']))
+    books = FileReader.new("books.json").read
+    books.map { |book| @books.push(Book.new(book["title"], book["author"])) }
+
+    people = FileReader.new("people.json").read
+    people.each do |person_data|
+      if person_data["type"] == "Student"
+        student = Student.new(person_data["age"], person_data["name"], parent_permission: person_data["parent_permission"])
+        student.instance_variable_set(:@id, person_data["id"])
+        @people << student
       else
-        @people.push(Teacher.new( person['specialization'], person['age'],person['name'],parent_permission:person['parent_permission']))  
+        teacher = Teacher.new(person_data["specialization"], person_data["age"], person_data["name"])
+        teacher.instance_variable_set(:@id, person_data["id"])
+        @people << teacher
       end
-    }
-    # rentals = FileReader.new('rentals.json').read
-    # rentals.map { |rental| @rentals.push(Rental.new(rental['date'], rental['book'], rental['person'])) }
+    end
+
+    rentals_data = FileReader.new("rentals.json").read
+    rentals_data.each do |rental_data|
+      book = @books.find { |b| b.title == rental_data["book"]["title"] }
+      person = @people.find { |p| p.id == rental_data["person"]["id"] }
+      rental = Rental.new(rental_data["date"], book, person)
+      @rentals << rental
+    end
   end
-  
+
   def save
-    books = @books.map { |book| { title: book.title, author: book.author } }
+    books = @books.map { |book| { title: book.title, author: book.author, rentals: book.rentals } }
     FileWriter.new("books.json").write(books)
-    people = @people.map { |person| 
+    people = @people.map { |person|
       if person.instance_of?(Teacher)
-        { id: person.id, name: person.name, age: person.age, parent_permission: person.parent_permission, type: person.class, specialization: person.specialization }
+        { id: person.id, name: person.name, age: person.age, parent_permission: person.parent_permission, type: person.class, specialization: person.specialization, rentals: person.rentals }
       else
-        { id: person.id, name: person.name, age: person.age, parent_permission: person.parent_permission, type: person.class, specialization:'No Specialization' }
+        { id: person.id, name: person.name, age: person.age, parent_permission: person.parent_permission, type: person.class, specialization: "No Specialization", rentals: person.rentals }
       end
     }
     FileWriter.new("people.json").write(people)
-    rentals = @rentals.map { |rental| { date: rental.date, book:
-      { title: rental.book.title, author: rental.book.author }, person: { id: rental.person.id, name: rental.person.name, age: rental.person.age, parent_permission: rental.person.parent_permission, type: rental.person.class, specialization: rental.person.specialization } } }
+    rentals = @rentals.map do |rental|
+      person_data = {
+        id: rental.person.id,
+        name: rental.person.name,
+        age: rental.person.age,
+        parent_permission: rental.person.parent_permission,
+        type: rental.person.class,
+        rentals: rental.person.rentals,
+      }
+
+      if rental.person.instance_of?(Teacher)
+        person_data[:specialization] = rental.person.specialization
+      else
+        person_data[:specialization] = "No Specialization"
+      end
+
+      {
+        date: rental.date,
+        book: {
+          title: rental.book.title,
+          author: rental.book.author,
+          rentals: rental.book.rentals,
+        },
+        person: person_data,
+      }
+    end
     FileWriter.new("rentals.json").write(rentals)
   end
 
@@ -147,11 +182,11 @@ class App
     puts "There is no books yet." if @books.empty?
     @books.map { |book| book_printer(book) }
   end
-  
+
   def book_printer(book)
     puts "Title: \"#{book.title}\", Author: #{book.author}"
   end
-  
+
   def create_rental
     return puts "There is no books yet." if @books.empty?
     puts "Select a book from the following list by number"
