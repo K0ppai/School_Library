@@ -28,9 +28,11 @@ class App
 
   def load_data
     books = FileReader.new("books.json").read
+    people = FileReader.new("people.json").read
+    rentals_data = FileReader.new("rentals.json").read
+
     books.map { |book| @books.push(Book.new(book["title"], book["author"])) }
 
-    people = FileReader.new("people.json").read
     people.each do |person_data|
       if person_data["type"] == "Student"
         student = Student.new(person_data["age"], person_data["name"], parent_permission: person_data["parent_permission"])
@@ -43,7 +45,6 @@ class App
       end
     end
 
-    rentals_data = FileReader.new("rentals.json").read
     rentals_data.each do |rental_data|
       book = @books.find { |b| b.title == rental_data["book"]["title"] }
       person = @people.find { |p| p.id == rental_data["person"]["id"] }
@@ -54,7 +55,6 @@ class App
 
   def save
     books = @books.map { |book| { title: book.title, author: book.author, rentals: book.rentals } }
-    FileWriter.new("books.json").write(books)
     people = @people.map { |person|
       if person.instance_of?(Teacher)
         { id: person.id, name: person.name, age: person.age, parent_permission: person.parent_permission, type: person.class, specialization: person.specialization, rentals: person.rentals }
@@ -62,7 +62,6 @@ class App
         { id: person.id, name: person.name, age: person.age, parent_permission: person.parent_permission, type: person.class, specialization: "No Specialization", rentals: person.rentals }
       end
     }
-    FileWriter.new("people.json").write(people)
     rentals = @rentals.map do |rental|
       person_data = {
         id: rental.person.id,
@@ -72,13 +71,13 @@ class App
         type: rental.person.class,
         rentals: rental.person.rentals,
       }
-
+      
       if rental.person.instance_of?(Teacher)
         person_data[:specialization] = rental.person.specialization
       else
         person_data[:specialization] = "No Specialization"
       end
-
+      
       {
         date: rental.date,
         book: {
@@ -89,9 +88,12 @@ class App
         person: person_data,
       }
     end
+    
+    FileWriter.new("books.json").write(books)
+    FileWriter.new("people.json").write(people)
     FileWriter.new("rentals.json").write(rentals)
   end
-
+  
   def choose_option
     option = gets.chomp
     case option
