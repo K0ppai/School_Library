@@ -34,6 +34,8 @@ class App
   def save
     books = @books.map { |book| { title: book.title, author: book.author } }
     FileWriter.new("books.json").write(books)
+    people = @people.map { |person| { id: person.id, name: person.name, age: person.age, parent_permission: person.parent_permission, type: person.class } }
+    FileWriter.new("people.json").write(people)
   end
 
   def choose_option
