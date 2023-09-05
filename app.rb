@@ -27,15 +27,13 @@ class App
   end
 
   def load_data
-    books_file = File.read('./books.json') if File.exist?('./books.json')
-    bookData = JSON.parse(books_file)
-    bookData.map { |book| @books.push(Book.new(book['title'], book['author']))}
-    puts "Loaded"
+    books = FileReader.new('books.json').read
+    books.map { |book| @books.push(Book.new(book['title'], book['author'])) }
   end
 
   def save
     books = @books.map { |book| { title: book.title, author: book.author } }
-    DataPreserver.new.write("books.json", books)
+    FileWriter.new("books.json").write(books)
   end
 
   def choose_option
