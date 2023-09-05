@@ -4,6 +4,8 @@ require "./teacher"
 require "./classroom"
 require "./book"
 require "./rental"
+require "./data_preserver"
+require "json"
 
 class App
   def initialize
@@ -24,6 +26,11 @@ class App
       7 - Exit"
   end
 
+  def save
+    books = @books.map { |book| { title: book.title, author: book.author } }
+    DataPreserver.new.write("books.json", books)
+  end
+
   def choose_option
     option = gets.chomp
     case option
@@ -40,6 +47,8 @@ class App
     when "6"
       display_rentals_by_person_id
     when "7"
+      save
+      puts "Saved successfully!"
       puts "Thank you for using this app!"
       exit
     end
