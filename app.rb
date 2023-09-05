@@ -30,19 +30,25 @@ class App
     books = FileReader.new('books.json').read
     books.map { |book| @books.push(Book.new(book['title'], book['author'])) }
     people = FileReader.new('people.json').read
-    people.map { |person| 
-      if(person.type === 'Student')
-        @people.push(Student.new( person['age'], person['name'],person['parent_permission']))
-      else
-        @people.push(Teacher.new( person['specialization'], person['age'],person['name'],person['parent_permission']))  
-      end
-    }
+    # people.map { |person| 
+    #   if(person.type === 'Student')
+    #     @people.push(Student.new( person['age'], person['name'],person['parent_permission']))
+    #   else
+    #     @people.push(Teacher.new( person['specialization'], person['age'],person['name'],person['parent_permission']))  
+    #   end
+    # }
   end
 
   def save
     books = @books.map { |book| { title: book.title, author: book.author } }
     FileWriter.new("books.json").write(books)
-    people = @people.map { |person| { id: person.id, name: person.name, age: person.age, parent_permission: person.parent_permission, type: person.class } }
+    people = @people.map { |person| 
+      if person.instance_of?(Teacher)
+        { id: person.id, name: person.name, age: person.age, parent_permission: person.parent_permission, type: person.class, specialization: person.specialization }
+      else
+        { id: person.id, name: person.name, age: person.age, parent_permission: person.parent_permission, type: person.class, specialization:nil }
+      end
+    }
     FileWriter.new("people.json").write(people)
   end
 
