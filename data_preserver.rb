@@ -5,10 +5,6 @@ class DataPreserver
 end
 
 class FileWriter < DataPreserver
-  def initialize(file_name)
-    super(file_name)
-  end
-  
   def write(data)
     opts = {
       array_nl: "\n",
@@ -23,12 +19,14 @@ class FileWriter < DataPreserver
 end
 
 class FileReader < DataPreserver
-  def initialize(file_name)
-    super(file_name)
-  end
-
   def read
-    file = File.read(@file_name) if File.exist?(@file_name)
+    if File.exist?(@file_name)
+      file = File.read(@file_name)
+    else
+      FileWriter.new(@file_name).write([])
+      file = File.read(@file_name)
+    end
+
     JSON.parse(file)
   end
 end
