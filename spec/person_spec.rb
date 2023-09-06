@@ -42,9 +42,8 @@ describe Person do
     it 'must push rental to rentals' do
       person = Person.new(18, false)
       book = Book.new('young man', 'manzi')
-      rental = Rental.new(Date.today, book, person)
-      person.add_rental(rental)
-      expect(person.rentals).to include(rental)
+      person.add_rental(book, Date.today)
+      expect(person.rentals.length).to be 1
     end
   end
 end
