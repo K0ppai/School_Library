@@ -33,5 +33,10 @@ describe Teacher do
       parent_permission = @teacher.parent_permission
       expect(parent_permission).to be true 
     end
+
+    it "The class should be able to use services" do
+      can_use_services = @teacher.can_use_services?
+      expect(can_use_services).to be true 
+    end
   end
 end
