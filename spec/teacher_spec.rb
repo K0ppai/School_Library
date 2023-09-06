@@ -3,7 +3,7 @@ require './spec_helper.rb'
 
 describe Teacher do
 
-  before :each do
+  before :all do
     @teacher = Teacher.new "Math", 23, "Dasy"
   end
 
