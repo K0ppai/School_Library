@@ -13,6 +13,25 @@ describe Teacher do
       expect(@teacher).to be_an_instance_of(Teacher)
     end
     
-  end
 
+    it "The class should have specialization" do
+      specialization = @teacher.specialization
+      expect(specialization).to eq "Math"  
+    end
+
+    it "The class should have age" do
+      age = @teacher.age
+      expect(age).to be 23 
+    end
+
+    it "The class should have name" do
+      name = @teacher.name
+      expect(name).to eql "Dasy"  
+    end
+
+    it "The class should have parent_permission" do
+      parent_permission = @teacher.parent_permission
+      expect(parent_permission).to be true 
+    end
+  end
 end
