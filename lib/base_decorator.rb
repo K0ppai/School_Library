@@ -1,6 +1,8 @@
-require './nameable'
+require_relative './nameable.rb'
 
 class Decorator < Nameable
+  attr_reader :nameable
+
   def initialize(nameable)
     super()
     @nameable = nameable
