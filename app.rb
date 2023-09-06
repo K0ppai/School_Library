@@ -4,6 +4,8 @@ require "./teacher"
 require "./classroom"
 require "./book"
 require "./rental"
+require "./data_preserver"
+require "json"
 
 class App
   def initialize
@@ -24,6 +26,74 @@ class App
       7 - Exit"
   end
 
+  def load_data
+    books = FileReader.new("books.json").read
+    people = FileReader.new("people.json").read
+    rentals_data = FileReader.new("rentals.json").read
+
+    books.map { |book| @books.push(Book.new(book["title"], book["author"])) }
+
+    people.each do |person_data|
+      if person_data["type"] == "Student"
+        student = Student.new(person_data["age"], person_data["name"], parent_permission: person_data["parent_permission"])
+        student.instance_variable_set(:@id, person_data["id"])
+        @people << student
+      else
+        teacher = Teacher.new(person_data["specialization"], person_data["age"], person_data["name"])
+        teacher.instance_variable_set(:@id, person_data["id"])
+        @people << teacher
+      end
+    end
+
+    rentals_data.each do |rental_data|
+      book = @books.find { |b| b.title == rental_data["book"]["title"] }
+      person = @people.find { |p| p.id == rental_data["person"]["id"] }
+      rental = Rental.new(rental_data["date"], book, person)
+      @rentals << rental
+    end
+  end
+
+  def save
+    books = @books.map { |book| { title: book.title, author: book.author, rentals: book.rentals } }
+    people = @people.map { |person|
+      if person.instance_of?(Teacher)
+        { id: person.id, name: person.name, age: person.age, parent_permission: person.parent_permission, type: person.class, specialization: person.specialization, rentals: person.rentals }
+      else
+        { id: person.id, name: person.name, age: person.age, parent_permission: person.parent_permission, type: person.class, specialization: "No Specialization", rentals: person.rentals }
+      end
+    }
+    rentals = @rentals.map do |rental|
+      person_data = {
+        id: rental.person.id,
+        name: rental.person.name,
+        age: rental.person.age,
+        parent_permission: rental.person.parent_permission,
+        type: rental.person.class,
+        rentals: rental.person.rentals,
+      }
+      
+      if rental.person.instance_of?(Teacher)
+        person_data[:specialization] = rental.person.specialization
+      else
+        person_data[:specialization] = "No Specialization"
+      end
+      
+      {
+        date: rental.date,
+        book: {
+          title: rental.book.title,
+          author: rental.book.author,
+          rentals: rental.book.rentals,
+        },
+        person: person_data,
+      }
+    end
+    
+    FileWriter.new("books.json").write(books)
+    FileWriter.new("people.json").write(people)
+    FileWriter.new("rentals.json").write(rentals)
+  end
+  
   def choose_option
     option = gets.chomp
     case option
@@ -40,6 +110,8 @@ class App
     when "6"
       display_rentals_by_person_id
     when "7"
+      save
+      puts "Saved successfully!"
       puts "Thank you for using this app!"
       exit
     end
@@ -118,6 +190,7 @@ class App
   end
 
   def create_rental
+    return puts "There is no books yet." if @books.empty?
     puts "Select a book from the following list by number"
     @books.map.with_index do |book, idx|
       print "#{idx}) "
